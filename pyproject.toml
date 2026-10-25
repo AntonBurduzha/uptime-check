@@ -1,0 +1,53 @@
+[project]
+name = "uptime-check"
+version = "0.1.0"
+description = "Check that every URL in a file responds, concurrently with timeout."
+readme = "README.md"
+authors = [
+    { name = "Anton Burduzha", email = "anton.burduzha@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "httpx>=0.28.1",
+    "pydantic>=2.14.1",
+]
+
+[project.scripts]
+uptime-check = "uptime_check.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13.1,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "respx>=0.23.1",
+    "ruff>=0.17.1",
+]
+
+[tool.ruff]
+line-length = 100 # max line length
+target-version = "py313"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+# E/F = basic errors, I = import sorting, B = likely bugs,
+# UP = modern syntax, ASYNC = async mistakes,
+# S = security, SIM = simplifications, RUF = ruff own rules, PT = pytest style
+select = ["E", "F", "I", "B", "UP", "ASYNC", "S", "SIM", "RUF", "PT"]
+ignore = ["S101"] # for pytest
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+markers = ["slow: longer than a second"]
+addopts = "--strict-markers"

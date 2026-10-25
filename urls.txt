@@ -1,0 +1,5 @@
+https://example.com
+https://www.python.org
+https://httpbin.org/status/503
+https://httpbin.org/delay/10
+not a url
